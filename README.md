@@ -1,4 +1,4 @@
-# ark-pzpi-24-5-hladkykh-anastasia
+# ark-pzpi-24-5-hladkykh-anastasiia
 
 ПЗПІ-24-5
 
