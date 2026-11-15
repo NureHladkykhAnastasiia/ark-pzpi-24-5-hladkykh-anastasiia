@@ -1,7 +1,6 @@
-/// Можливі стани обробки замовлення клієнта.
+// В.1 Структура коду та іменування
 enum OrderStatus { pending, processing, completed, cancelled }
 
-/// Модель замовлення, оформлена за стандартами Effective Dart.
 class CustomerOrder {
   final String orderId;
   final String customerName;
@@ -15,42 +14,62 @@ class CustomerOrder {
   }) : _itemPrices = initialPrices ?? [];
 
   OrderStatus get status => _status;
-
-  double get totalAmount =>
-      _itemPrices.fold(0.0, (sum, price) => sum + price);
-
-  void addItemPrice(double price) {
-    if (price <= 0) {
-      throw ArgumentError.value(
-        price,
-        'price',
-        'Ціна товару повинна бути більшою за нуль.',
-      );
-    }
-    _itemPrices.add(price);
-  }
-
-  void completeOrder() {
-    if (_itemPrices.isEmpty) {
-      throw StateError('Неможливо завершити порожнє замовлення.');
-    }
-    _status = OrderStatus.completed;
-  }
 }
 
-void main() {
-  final order = CustomerOrder(
-    orderId: 'ORD-2026-001',
-    customerName: 'Гладких Анастасія',
-  );
+// В.2 Форматування коду (до та після dart format)
+double calcBefore(double p,int q){if(q<=0){return 0;}return p*q;}
 
-  order.addItemPrice(450.50);
-  order.addItemPrice(1200.00);
-  order.completeOrder();
+double calculateOrderAmount(double price, int quantity) {
+  if (quantity <= 0) {
+    return 0.0;
+  }
+  return price * quantity;
+}
 
-  print(
-    'Замовлення ${order.orderId} (${order.customerName}): '
-    'сума = ${order.totalAmount.toStringAsFixed(2)} грн, '
-    'статус = ${order.status.name}',
-  );
+// В.3 Іменування та іменовані константи
+double getFinalPriceBad(double a, int b) {
+  final x = a * b;
+  return x > 1000 ? x * 0.9 : x;
+}
+
+const double discountThreshold = 1000.0;
+const double discountRate = 0.1;
+
+double calculateDiscountedTotal(double price, int quantity) {
+  final total = price * quantity;
+  final hasDiscount = total > discountThreshold;
+  return hasDiscount ? total * (1 - discountRate) : total;
+}
+
+// В.4 Коментарі та документування API
+/// Обчислює вартість замовлення з урахуванням округлення до цілих одиниць.
+///
+/// Приймає базову ціну [unitPrice] та кількість [rawQuantity].
+/// Повертає підсумкову суму у гривнях.
+double calculateDeliveryBatchCost(double unitPrice, double rawQuantity) {
+  // Служба доставки приймає лише цілі упаковки товару.
+  final packagesCount = rawQuantity.ceil();
+  return unitPrice * packagesCount;
+}
+
+// В.5 Безпека типів (Null Safety) та незмінність (final)
+String formatCustomerGreetingBad(String? userName) {
+  var greeting = 'Вітаємо, ' + userName! + '!';
+  return greeting;
+}
+
+String formatCustomerGreeting(String? userName) {
+  final safeName = userName ?? 'Гість';
+  return 'Вітаємо, $safeName!';
+}
+
+// В.6 Обробка помилок (Guard Clauses)
+void validateItemPrice(double price) {
+  if (price <= 0) {
+    throw ArgumentError.value(
+      price,
+      'price',
+      'Ціна товару повинна бути більшою за нуль.',
+    );
+  }
 }
