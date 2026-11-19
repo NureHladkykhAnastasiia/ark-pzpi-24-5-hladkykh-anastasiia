@@ -6,6 +6,6 @@
 
 Основні рекомендації написання чистого та підтримуваного коду на мові програмування Dart (Effective Dart)
 
-Застосування методів рефакторингу (Preserve Whole Object, Remove Control Flag, Replace Parameter with Explicit Methods) у програмному проекті
+Застосування методів рефакторингу (Preserve Whole Object, Encapsulate Downcast, Form Template Method) у програмному проекті
 
 Розробка та рефакторинг архітектури програмної системи
